@@ -1,3 +1,9 @@
+.venv/
 uploads/
 results/
+runs/
+datasets/
 *.mp4
+*.avi
+*.pt
+*.pth
