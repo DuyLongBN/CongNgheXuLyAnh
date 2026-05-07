@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận Dạng Biển Số Xe - License Plate Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">🚗 NHẬN DẠNG BIỂN SỐ XE</h1>
+                <p class="subtitle">Real-time License Plate Recognition System</p>
+            </div>
+            <div class="status-indicator">
+                <span id="status" class="status-dot"></span>
+                <span id="status-text">Offline</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel - Controls -->
+            <aside class="control-panel">
+                <div class="panel-section">
+                    <h3>📹 Webcam Live</h3>
+                    <div class="button-group">
+                        <button id="startBtn" class="btn btn-primary btn-large" onclick="startWebcam()">
+                            ▶ Bắt Đầu
+                        </button>
+                        <button id="stopBtn" class="btn btn-secondary btn-large" onclick="stopWebcam()" disabled>
+                            ⏹ Dừng
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>📷 Tải Ảnh</h3>
+                    <label class="file-input-label">
+                        <input type="file" id="imageInput" accept="image/*" onchange="processImage(event)">
+                        <span class="upload-btn">+ Chọn Ảnh</span>
+                    </label>
+                    <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;" onclick="testSystem()">🧪 Test</button>
+                </div>
+
+                <div class="panel-section">
+                    <h3>🎥 Tải Video</h3>
+                    <label class="file-input-label">
+                        <input type="file" id="videoInput" accept="video/*" onchange="uploadVideo(event)">
+                        <span class="upload-btn">+ Chọn Video</span>
+                    </label>
+                    <div id="uploadProgress" class="progress-bar hidden">
+                        <div id="uploadProgressBar" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="panel-section stats-section">
+                    <h3>📊 Thống Kê</h3>
+                    <div class="stat-item">
+                        <span class="stat-label">Tổng phát hiện:</span>
+                        <span class="stat-value" id="totalDetections">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Biển số riêng:</span>
+                        <span class="stat-value" id="uniquePlates">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Độ tin cậy trung bình:</span>
+                        <span class="stat-value" id="avgConfidence">0%</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center - Video Display -->
+            <div class="video-display-area">
+                <div class="video-container">
+                    <div id="videoCanvas" class="video-frame">
+                        <p class="placeholder-text">📹 Video sẽ hiển thị tại đây</p>
+                    </div>
+                    <div class="video-info">
+                        <span id="fpsCounter">FPS: 0</span>
+                        <span id="timestamp">--:--:--</span>
+                    </div>
+                </div>
+
+                <!-- Image Result -->
+                <div id="imageResultContainer" class="image-result-container hidden">
+                    <img id="resultImage" src="" alt="Result">
+                </div>
+            </div>
+
+            <!-- Right Panel - Results -->
+            <aside class="results-panel">
+                <div class="panel-section">
+                    <h3>🔍 Kết Quả Gần Đây</h3>
+                    <div id="resultsList" class="results-list">
+                        <div class="empty-state">Chưa có kết quả</div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>📋 Lịch Sử Biển Số</h3>
+                    <div id="plateHistory" class="results-list">
+                        <div class="empty-state">Chưa có lịch sử</div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Bottom Status Bar -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p id="systemStatus">Sẵn sàng để sử dụng</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+        <p>Đang xử lý...</p>
+    </div>
+
+    <!-- Modal for notifications -->
+    <div id="notificationModal" class="notification-modal hidden"></div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
